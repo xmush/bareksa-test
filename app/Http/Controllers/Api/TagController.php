@@ -34,7 +34,7 @@ class TagController extends Controller
 
 
     public function update(Request $request, $tag_id) {
-        $tag = Tag::where('id', $tag_id)->first();
+        $tag = Tag::where('id', $tag_id)->where('status', '!=', 'deleted')->first();
 
         if (is_null($tag)) {
             return response()->json(['message' => 'Not Found!', 'data' => []], 404);

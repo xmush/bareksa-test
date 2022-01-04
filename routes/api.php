@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\ArticleController;
 use App\Http\Controllers\Api\TagController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -25,5 +26,12 @@ Route::prefix('tag')->group(function () {
     Route::get('/{tag_id}', [TagController::class, 'detail']);
     Route::patch('/{tag_id}', [TagController::class, 'update']);
     Route::delete('/{tag_id}', [TagController::class, 'delete']);
-    // Route::get('/{tag_id}/delete', [TagController::class, 'delete']);
+});
+
+Route::prefix('news')->group(function () {
+    Route::get('/', [ArticleController::class, 'index']);
+    Route::post('/', [ArticleController::class, 'create']);
+    Route::get('/{news_id}', [ArticleController::class, 'detail']);
+    Route::patch('/{news_id}', [ArticleController::class, 'update']);
+    Route::delete('/{news_id}', [ArticleController::class, 'delete']);
 });
