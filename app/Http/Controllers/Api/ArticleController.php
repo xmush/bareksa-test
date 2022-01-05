@@ -9,6 +9,7 @@ use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Redis;
 
 class ArticleController extends Controller
 {
@@ -52,13 +53,17 @@ class ArticleController extends Controller
                 }
             ])->get();
         }
+
+        Redis::setex($key, 1800, $news);
         
         return response()->json(['message' => 'success','data' => $news], 200);
 
     }
 
 
-    public function detail($news_id) {
+    public function detail(Request$request, $news_id) {
+        $key = $request->fullUrl();
+
         $article = Article::where('id', $news_id)
             ->where('status', '!=', 'deleted')
             ->with(['topic', 'tags' => function($query) {
@@ -69,6 +74,8 @@ class ArticleController extends Controller
         if (is_null($article)) {
             return response()->json(['message'=> 'Not Found!', 'data' => []], 404);
         }
+
+        Redis::setex($key, 1800, $article);
         
         return response()->json(['message' => 'success', 'data' => $article], 200);
     }

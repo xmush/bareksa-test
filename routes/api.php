@@ -35,17 +35,17 @@ Route::prefix('redis')->group(function () {
 
 
 Route::prefix('tag')->group(function () {
-    Route::get('/', [TagController::class, 'index']);
+    Route::get('/', [TagController::class, 'index'])->middleware('cache.redis');
     Route::post('/', [TagController::class, 'create']);
-    Route::get('/{tag_id}', [TagController::class, 'detail']);
+    Route::get('/{tag_id}', [TagController::class, 'detail'])->middleware('cache.redis');
     Route::patch('/{tag_id}', [TagController::class, 'update']);
     Route::delete('/{tag_id}', [TagController::class, 'delete']);
 });
 
 Route::prefix('news')->group(function () {
-    Route::get('/', [ArticleController::class, 'index']);
+    Route::get('/', [ArticleController::class, 'index'])->middleware('cache.redis');
     Route::post('/', [ArticleController::class, 'create']);
-    Route::get('/{news_id}', [ArticleController::class, 'detail']);
+    Route::get('/{news_id}', [ArticleController::class, 'detail'])->middleware('cache.redis');
     Route::patch('/{news_id}', [ArticleController::class, 'update']);
     Route::delete('/{news_id}', [ArticleController::class, 'delete']);
 });
