@@ -2,7 +2,8 @@
 
 use App\Http\Controllers\Api\ArticleController;
 use App\Http\Controllers\Api\TagController;
-use Illuminate\Http\Request;
+use Illuminate\Http\Client\ConnectionException;
+use Illuminate\Support\Facades\Redis;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -19,6 +20,19 @@ use Illuminate\Support\Facades\Route;
 // Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 //     return $request->user();
 // });
+
+// test redis connection
+Route::prefix('redis')->group(function () {
+    Route::get('/', function() {
+        try {
+            $redis=Redis::connect('127.0.0.1',3306);
+            return response()->json(['message' => 'redis working', 'data' => $redis], 200);
+        } catch (Exception $e) {
+            return response()->json(['message' => $e->getMessage(), 'data' => []], 500);
+        }
+    });
+});
+
 
 Route::prefix('tag')->group(function () {
     Route::get('/', [TagController::class, 'index']);

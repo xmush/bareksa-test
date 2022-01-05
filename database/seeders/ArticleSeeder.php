@@ -19,7 +19,7 @@ class ArticleSeeder extends Seeder
         // initiate faker
         $faker = Faker::create('id_ID');
 
-        for($i = 1; $i <= 100; $i++){
+        for($i = 1; $i <= 1000; $i++){
 
             $topic = DB::table('topics')->find(rand(1, 7));
             $total_tag = rand(1,3);

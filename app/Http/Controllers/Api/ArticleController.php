@@ -6,7 +6,6 @@ use App\Http\Controllers\Controller;
 use App\Models\Article;
 use App\Models\ArticleTag;
 use Exception;
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
@@ -15,6 +14,8 @@ class ArticleController extends Controller
 {
     
     public function index(Request $request) {
+        $key = $request->fullUrl();
+
         $validation = Validator::make($request->all(), [
             'topic' => 'nullable|string',
             'status' => 'nullable|string|in:draft,deleted,publish'
